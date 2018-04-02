@@ -7,15 +7,16 @@ import java.nio.charset.Charset;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
 public class InitTest
 {
     @Test
+    @Ignore
     public void pingTest()
     {
-
         try
         {
             Request request = Request.Post("http://localhost:8585/availableLeagues");
@@ -29,6 +30,9 @@ public class InitTest
             Assert.assertEquals(200, response.getStatusLine().getStatusCode());
             Assert.assertTrue(!content.isEmpty());
         }
-        catch (Exception ex) { }
+        catch (Exception ex)
+        {
+            Assert.fail("Exception: " + ex);
+        }
     }
 }
