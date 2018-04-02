@@ -1,0 +1,1 @@
+mvn -P mvnrepository -e clean package
