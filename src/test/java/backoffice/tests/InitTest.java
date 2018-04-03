@@ -51,7 +51,7 @@ public class InitTest
         Assert.assertTrue(!content.isEmpty());
     }
 
-    private String urlFactory(String ... urlParts)
+    private static String urlFactory(String ... urlParts)
     {
         StringJoiner joiner = new StringJoiner("/");
         for (String part : urlParts)
