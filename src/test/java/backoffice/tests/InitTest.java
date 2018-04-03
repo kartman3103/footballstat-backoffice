@@ -36,19 +36,20 @@ public class InitTest
         Assert.assertEquals(200, response.getStatusLine().getStatusCode());
     }
 
-    @Test(expected = NullPointerException.class)
-    public void incorrectUrlRequestTest()
-    {
-        remoteRequest.post(null);
-    }
-
     @Test
+    @Ignore(value = "Ignore while footballstat project not deployed to remote server")
     public void contentTest()
     {
         String url = urlFactory(remoteConfig.getUrl(), remoteConfig.getAvailableLeagues());
         String content = remoteRequest.postContent(url);
 
         Assert.assertTrue(!content.isEmpty());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void incorrectUrlRequestTest()
+    {
+        remoteRequest.post(null);
     }
 
     private static String urlFactory(String ... urlParts)
