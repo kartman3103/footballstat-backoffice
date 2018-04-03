@@ -27,7 +27,7 @@ public class InitTest
     private RemoteRequest remoteRequest;
 
     @Test
-    @Ignore
+    @Ignore(value = "Ignore while footballstat project not deployed to remote server")
     public void pingTest()
     {
         String url = urlFactory(remoteConfig.getUrl(), remoteConfig.getAvailableLeagues());
