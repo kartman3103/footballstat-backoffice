@@ -4,21 +4,33 @@ package backoffice.tests;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
+import backoffice.Application;
+import backoffice.RemoteConfig;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
+@SpringBootTest(classes = Application.class)
+@RunWith(SpringRunner.class)
 public class InitTest
 {
+    @Autowired
+    private RemoteConfig remoteConfig;
+
     @Test
-    @Ignore
     public void pingTest()
     {
         try
         {
+            String url = remoteConfig.getUrl();
+            System.out.println(url);
+
             Request request = Request.Post("http://localhost:8585/availableLeagues");
             HttpResponse response = request.execute().returnResponse();
 
