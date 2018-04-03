@@ -1,3 +1,0 @@
-remote :
-  url : http://localhost:8585
-  availableLeagues : availableLeagues

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @Configuration
 @ComponentScan
-@EnableConfigurationProperties(RemoteConfig.class)
+@EnableConfigurationProperties
 public class Application
 {
     public static void main(String ... args)

@@ -6,8 +6,8 @@ import org.springframework.context.annotation.PropertySource;
 
 
 @Configuration
-@PropertySource("classpath:remote.yml")
-@ConfigurationProperties(prefix = "remote")
+@PropertySource("classpath:config/remote.yml")
+@ConfigurationProperties
 public class RemoteConfig
 {
     private String url;
