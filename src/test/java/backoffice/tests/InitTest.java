@@ -1,14 +1,12 @@
 package backoffice.tests;
 
 
-import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
 import java.util.StringJoiner;
 
 import backoffice.Application;
 import backoffice.RemoteConfig;
+import backoffice.RemoteRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.fluent.Request;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,30 +23,30 @@ public class InitTest
     @Autowired
     private RemoteConfig remoteConfig;
 
+    @Autowired
+    private RemoteRequest remoteRequest;
+
     @Test
     @Ignore
     public void pingTest()
     {
-        try
-        {
-            StringJoiner joiner = new StringJoiner("/");
-            joiner.add(remoteConfig.getUrl());
-            joiner.add(remoteConfig.getAvailableLeagues());
+        StringJoiner joiner = new StringJoiner("/");
+        joiner.add(remoteConfig.getUrl());
+        joiner.add(remoteConfig.getAvailableLeagues());
 
-            Request request = Request.Post(joiner.toString());
-            HttpResponse response = request.execute().returnResponse();
+//        ByteArrayOutputStream output = new ByteArrayOutputStream();
+//        response.getEntity().writeTo(output);
+//
+//        String content = output.toString(Charset.defaultCharset().name());
 
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            response.getEntity().writeTo(output);
 
-            String content = output.toString(Charset.defaultCharset().name());
+        HttpResponse response = remoteRequest.post(joiner.toString());
+        Assert.assertEquals(200, response.getStatusLine().getStatusCode());
+    }
 
-            Assert.assertEquals(200, response.getStatusLine().getStatusCode());
-            Assert.assertTrue(!content.isEmpty());
-        }
-        catch (Exception ex)
-        {
-            Assert.fail("Exception: " + ex);
-        }
+    @Test(expected = NullPointerException.class)
+    public void incorrectUrlRequestTest()
+    {
+        remoteRequest.post(null);
     }
 }
