@@ -30,17 +30,9 @@ public class InitTest
     @Ignore
     public void pingTest()
     {
-        StringJoiner joiner = new StringJoiner("/");
-        joiner.add(remoteConfig.getUrl());
-        joiner.add(remoteConfig.getAvailableLeagues());
+        String url = urlFactory(remoteConfig.getUrl(), remoteConfig.getAvailableLeagues());
 
-//        ByteArrayOutputStream output = new ByteArrayOutputStream();
-//        response.getEntity().writeTo(output);
-//
-//        String content = output.toString(Charset.defaultCharset().name());
-
-
-        HttpResponse response = remoteRequest.post(joiner.toString());
+        HttpResponse response = remoteRequest.post(url);
         Assert.assertEquals(200, response.getStatusLine().getStatusCode());
     }
 
@@ -48,5 +40,24 @@ public class InitTest
     public void incorrectUrlRequestTest()
     {
         remoteRequest.post(null);
+    }
+
+    @Test
+    public void contentTest()
+    {
+        String url = urlFactory(remoteConfig.getUrl(), remoteConfig.getAvailableLeagues());
+        String content = remoteRequest.postContent(url);
+
+        Assert.assertTrue(!content.isEmpty());
+    }
+
+    private String urlFactory(String ... urlParts)
+    {
+        StringJoiner joiner = new StringJoiner("/");
+        for (String part : urlParts)
+        {
+            joiner.add(part);
+        }
+        return joiner.toString();
     }
 }

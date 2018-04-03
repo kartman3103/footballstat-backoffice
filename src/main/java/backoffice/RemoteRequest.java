@@ -1,7 +1,9 @@
 package backoffice;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Objects;
 
 import org.apache.http.HttpResponse;
@@ -24,5 +26,25 @@ public class RemoteRequest
         {
             throw new RuntimeException();
         }
+    }
+
+    public String postContent(String url)
+    {
+        Objects.requireNonNull(url, "Url cannot be null");
+
+        try
+        {
+            HttpResponse response = post(url);
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            response.getEntity().writeTo(output);
+
+            return output.toString(Charset.defaultCharset().name());
+        }
+        catch (IOException ex)
+        {
+            throw new RuntimeException();
+        }
+
     }
 }
