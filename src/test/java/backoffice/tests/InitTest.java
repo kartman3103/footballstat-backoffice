@@ -3,12 +3,14 @@ package backoffice.tests;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
+import java.util.StringJoiner;
 
 import backoffice.Application;
 import backoffice.RemoteConfig;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,16 @@ public class InitTest
     private RemoteConfig remoteConfig;
 
     @Test
+    @Ignore
     public void pingTest()
     {
         try
         {
-            String url = remoteConfig.getUrl();
-            System.out.println(url);
+            StringJoiner joiner = new StringJoiner("/");
+            joiner.add(remoteConfig.getUrl());
+            joiner.add(remoteConfig.getAvailableLeagues());
 
-            Request request = Request.Post("http://localhost:8585/availableLeagues");
+            Request request = Request.Post(joiner.toString());
             HttpResponse response = request.execute().returnResponse();
 
             ByteArrayOutputStream output = new ByteArrayOutputStream();
